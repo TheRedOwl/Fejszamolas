@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Document</title>
+    <style>
+        .ok,
+        .bad {
+            visibility: hidden;
+            width: 50px;
+            height: 50px;
+            font-size: 2rem;
+        }
+
+        button {
+            width: 200px;
+            height: 50px;
+            border-radius: 15px;
+        }
+
+        .container {
+            margin-top: 10px;
+            border-radius: 10px;
+            width: 300px;
+            height: 350px;
+            background-color: #057268;
+            background-image: linear-gradient(115deg, #adcac7 0%, #f9b464 100%);
+            justify-content: center;
+            box-shadow: 5px 15px 15px #bdb0e7;
+        }
+
+        span {
+            font-size: 1.5rem;
+        }
+
+        .gomb {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        .reactions{
+            justify-content: space-around;
+            text-align: center;
+        }
+        .time{
+            font-size: 2rem;
+        }
+        h1{
+            font-size: 2.25rem;
+        }
+        .szamolas{
+            height: 60px;
+        }
+        .time{
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Fejben számolás</h1>
+        <div class="szamolas">
+            <span id="nr1">__</span>+<span id="nr2">__</span>=<input onkeyup="check(this)" type="text"
+                placeholder="Mennyi az összeg">
+        </div>
+        <div class="gomb">
+            <button onclick="start()">start</button>
+        </div>
+
+        <div class="row reactions">
+            <div class="ok">😊</div>
+            <div class="bad">💩</div>
+        </div>
+
+        <div class="time"></div>
+    </div>
+
+    <script>
+        const randFc = (n) => Math.floor(Math.random() * n)
+
+        let nr1
+        let nr2
+        let timeleft
+        let timer
+        let result
+
+        const start = () => {
+            result = false
+            if (timer) clearTimeout(timer)
+            document.querySelector(".ok").style.visibility = "hidden"
+            document.querySelector(".bad").style.visibility = "hidden"
+            document.querySelector("input").disabled = false
+            document.querySelector("input").value = ""
+
+
+            nr1 = randFc(100)
+            nr2 = randFc(100)
+            document.getElementById("nr1").innerHTML = nr1
+            document.getElementById("nr2").innerHTML = nr2
+            countDown()
+        }
+
+        function countDown() {
+            timeleft = 5
+            timer = setInterval(() => {
+                document.querySelector(".time").innerHTML = timeleft
+                timeleft--
+
+                if (timeleft >= 0 && result) {
+                    clearInterval(timer)
+                    document.querySelector(".ok").style.visibility = "visible"
+                    document.querySelector("input").disabled = true
+                    return
+                }
+
+                if (timeleft < 0) {
+                    document.querySelector("input").disabled = true
+                    document.querySelector(".bad").style.visibility = "visible"
+                    clearInterval(timer)
+                    return
+                }
+            }, 1000)
+        }
+
+        const check = (domObj) => {
+            console.log(domObj.value)
+            if (domObj.value == nr1 + nr2) {
+                result = true
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
